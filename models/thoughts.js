@@ -1,10 +1,10 @@
 const {Schema, model } = require('mongoose');
 const reactionSchema = require('./reactionSchemaOnly');
 
-mongoose.set('toJSON', { getters: true });
+
 
 // creating the schema
-const thoughtSchema = new mongoose.Schema(
+const thoughtSchema = new Schema(
     {
         thoughtId: {
             type: Schema.Types.ObjectId,
@@ -26,15 +26,13 @@ const thoughtSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        reactions: [
-            {
-                type: schema.Types.ObjectId,
-                ref: reactionSchema,
-            },
-        ],
+        reactions: [reactionSchema],
 
-    });
+        
+    },
+    {toJSON: { getters: true },
+});
 
-const thoughts = model('thoughts', thoughtSchema);
+const Thoughts = model('Thoughts', thoughtSchema);
 
-module.exports = thoughtSchema;
+module.exports = Thoughts;

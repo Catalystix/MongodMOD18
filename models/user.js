@@ -1,8 +1,10 @@
+const { Schema, model } = require('mongoose');
 const mongoose = require('mongoose');
+
 const thoughtSchema = require('./thoughts');
 
 // creating the schema
-const userSchema = new mongoose.Schema(
+const userSchema = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
@@ -15,7 +17,12 @@ const userSchema = new mongoose.Schema(
       trim: true,
     },
     email: {
-      type: String, validate: validator,
+
+      type: String, validate:    
+      function (val) {
+        return val.match(/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/) ;
+      },
+      
       required: true,
       unique: true,
     },
@@ -27,8 +34,8 @@ const userSchema = new mongoose.Schema(
     ],
     friends: [
       {
-      type: schema.Types.ObjectId,
-      ref: userSchema,
+        type: Schema.Types.ObjectId,
+        ref: 'Users',
       },
     ],
     createdAt: {
@@ -38,8 +45,8 @@ const userSchema = new mongoose.Schema(
 
   });
 
- 
+const Users = model('Users', userSchema);
 
-module.exports = userSchema;
+module.exports = Users;
 
   // lastAccessed: { type: Date, default: Date.now },

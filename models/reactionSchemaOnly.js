@@ -5,8 +5,8 @@ mongoose.set('toJSON', { getters: true });
 const reactionSchema = new mongoose.Schema(
     {
         reactionId: {
-            type: Schema.Types.ObjectId,
-            default: () => new Types.ObjectId(),
+            type: mongoose.Schema.Types.ObjectId,
+            default: () => new mongoose.Types.ObjectId(),
         },
         reactionText: {
             type: String,
@@ -24,6 +24,8 @@ const reactionSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-    });
+    }, {
+        toJSON: { getters: true },
+});
 
-    module.exports = reactionSchema;
+module.exports = reactionSchema;
