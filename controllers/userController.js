@@ -52,4 +52,39 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
+  addFriend(req, res) {
+    console.log('You are adding a friend');
+    console.log(req.body);
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $addToSet: { friends: req.params.friendId } },
+      { runValidators: true, new: true }
+    )
+      .then((user) =>
+        !user
+          ? res
+              .status(404)
+              .json({ message: 'No User found with that ID :(' })
+          : res.json(user)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
+  // change to remove
+  removeFriend(req, res) {
+    console.log('You are removing a a friend');
+    console.log(req.body);
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $pull: { friends: req.params.friendId } },
+      { runValidators: true, new: true }
+    )
+      .then((User) =>
+        !User
+          ? res
+              .status(404)
+              .json({ message: 'No User found with that ID :(' })
+          : res.json(User)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
 };

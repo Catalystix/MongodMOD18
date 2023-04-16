@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
 const mongoose = require('mongoose');
 
 const thoughtSchema = require('./thoughts');
@@ -18,11 +18,11 @@ const userSchema = new Schema(
     },
     email: {
 
-      type: String, validate:    
-      function (val) {
-        return val.match(/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/) ;
-      },
-      
+      type: String, validate:
+        function (val) {
+          return val.match(/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/);
+        },
+
       required: true,
       unique: true,
     },
@@ -42,8 +42,20 @@ const userSchema = new Schema(
       type: Date,
       default: Date.now,
     },
+  },
+  {
+    toJSON: {
+      virtuals: true,
+    },
+    id: false,
+  }
+);
 
-  });
+userSchema
+  .virtual('friendCount')
+  .get(function () {
+    return this.friends.length;
+  })
 
 const Users = model('Users', userSchema);
 

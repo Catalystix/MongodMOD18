@@ -24,8 +24,9 @@ const reactionSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-    }, {
+    },
+    {
         toJSON: { getters: true },
-});
+    });
 
 module.exports = reactionSchema;
